@@ -1,0 +1,8 @@
+view memberships:
+  title: 'View memberships list'
+  description: 'View the list of memberships.'
+
+administer memberships:
+  title: 'Administer memberships'
+  description: 'Administer all memberships.'
+  restrict access: true

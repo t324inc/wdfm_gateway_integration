@@ -1,0 +1,7 @@
+name: 'WDFM Gateway Integration'
+type: module
+description: 'Integration with the Gateway server using SOAP'
+core: 8.x
+package: 'T324'
+dependencies:
+  - simple_integrations

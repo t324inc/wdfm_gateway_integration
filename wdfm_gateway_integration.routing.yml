@@ -1,0 +1,24 @@
+entity.membership.edit_form:
+  path: '/admin/content/memberships/{membership}/edit'
+  defaults:
+    _entity_form: 'membership.edit'
+    _title: 'Edit membership'
+    _title_callback: '\Drupal\wdfm_gateway_integration\Controller\MembershipController::getTitle'
+  requirements:
+    _permission: 'administer memberships'
+    membership: '^[a-zA-Z0-9_]+'
+entity.membership.canonical:
+  path: '/admin/content/memberships/{membership}'
+  defaults:
+    _entity_view: 'membership.full'
+    _title: 'Membership'
+    _title_callback: '\Drupal\wdfm_gateway_integration\Controller\MembershipController::getTitle'
+  requirements:
+    _permission: 'view memberships'
+entity.membership.collection:
+  path: '/admin/content/memberships'
+  defaults:
+    _entity_list: 'membership'
+    _title: 'Memberships'
+  requirements:
+    _permission: 'view memberships'

@@ -1,0 +1,14 @@
+<?php
+/**
+ * @file
+ * Installation hooks for WDFM Gateway Integration module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function wdfm_gateway_integration_uninstall() {
+  Drupal::configFactory()->getEditable('simple_integrations.integration.wdfm_gateway_dev')->delete();
+  Drupal::configFactory()->getEditable('simple_integrations.integration.wdfm_gateway_prod')->delete();
+  Drupal::configFactory()->getEditable('view.views.memberships')->delete();
+}

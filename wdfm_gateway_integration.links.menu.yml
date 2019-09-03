@@ -1,0 +1,5 @@
+entity.membership.collection:
+  title: 'Memberships'
+  route_name: 'entity.membership.collection'
+  description: 'List of Memberships.'
+  parent: system.admin_content

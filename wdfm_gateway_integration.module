@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * Contains wdfm_gateway_integration.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_help().
+ */
+function wdfm_gateway_integration_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the wdfm_gateway_integration module.
+    case 'help.page.wdfm_gateway_integration':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Integration with the Gateway server using SOAP style XML transactions over HTTP') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function wdfm_gateway_integration_entity_type_alter(array &$entity_types) {
+  $entity_types['user']->setFormClass('register', '\Drupal\wdfm_gateway_integration\Form\WDFMGatewayRegisterForm');
+}
+
+/**
+ * Entity URI callback.
+ */
+function membership_uri($membership) {
+  return new Url('entity.membership.canonical', [
+    'membership' => $membership->id(),
+  ]);
+}

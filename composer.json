@@ -1,0 +1,18 @@
+{
+  "name": "drupal/wdfm_gateway_integration",
+  "type": "drupal-module",
+  "description": "Integration with the Gateway server using SOAP",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/wdfm_gateway_integration",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/wdfm_gateway_integration",
+    "source": "http://cgit.drupalcode.org/wdfm_gateway_integration"
+  },
+  "require": {
+    "meng-tian/async-soap-guzzle": "dev-master",
+    "ext-simplexml": "*",
+    "ext-json": "*"
+  }
+}
