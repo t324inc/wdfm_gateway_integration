@@ -1,6 +1,6 @@
 {
   "name": "drupal/wdfm_gateway_integration",
-  "type": "drupal-module",
+  "type": "custom-drupal-module",
   "description": "Integration with the Gateway server using SOAP",
   "keywords": ["Drupal"],
   "license": "GPL-2.0+",
