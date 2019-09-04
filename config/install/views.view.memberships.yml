@@ -1125,15 +1125,6 @@ display:
           arguments: {  }
           max_links: 100
       path: admin/content/memberships
-      menu:
-        type: normal
-        title: Memberships
-        description: ''
-        expanded: false
-        parent: system.admin
-        weight: 3
-        context: '0'
-        menu_name: admin
     cache_metadata:
       max-age: -1
       contexts:

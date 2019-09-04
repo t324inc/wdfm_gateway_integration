@@ -7,6 +7,15 @@ entity.membership.edit_form:
   requirements:
     _permission: 'administer memberships'
     membership: '^[a-zA-Z0-9_]+'
+entity.membership.delete_form:
+  path: '/admin/content/memberships/{membership}/delete'
+  defaults:
+    _entity_form: 'membership.delete'
+    _title: 'Delete membership'
+    _title_callback: '\Drupal\wdfm_gateway_integration\Controller\MembershipController::getTitle'
+  requirements:
+    _permission: 'administer memberships'
+    membership: '^[a-zA-Z0-9_]+'
 entity.membership.canonical:
   path: '/admin/content/memberships/{membership}'
   defaults:

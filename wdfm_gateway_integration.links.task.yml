@@ -6,3 +6,7 @@ entity.membership.edit_form:
   route_name: entity.membership.edit_form
   base_route: entity.membership.canonical
   title: 'Edit'
+entity.membership.delete_form:
+  route_name: entity.membership.delete_form
+  base_route: entity.membership.canonical
+  title: 'Delete'
