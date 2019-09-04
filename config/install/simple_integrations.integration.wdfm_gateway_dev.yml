@@ -1,8 +1,0 @@
-id: wdfm_gateway_dev
-label: 'WDFM Gateway Server (Dev/Sandbox)'
-active: true
-debug_mode: true
-external_end_point: 'http://107.0.224.117:3051'
-auth_type: none
-auth_user: ''
-auth_key: ''
