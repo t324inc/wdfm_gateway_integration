@@ -1,0 +1,8 @@
+id: wdfm_gateway_prod
+label: 'WDFM Gateway Server (Production/Live)'
+active: true
+debug_mode: true
+external_end_point: 'http://107.0.224.116:3051'
+auth_type: none
+auth_user: ''
+auth_key: ''
