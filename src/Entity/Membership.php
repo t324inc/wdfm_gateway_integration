@@ -20,7 +20,7 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
  *     "form" = {
  *       "add" = "\Drupal\Core\Entity\ContentEntityForm",
  *       "edit" = "\Drupal\Core\Entity\ContentEntityForm",
- *       "delete" = "\Drupal\Core\Entity\EntityDeleteForm",
+ *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
  *     },
  *     "local_action_provider" = {
  *       "collection" = "\Drupal\entity\Menu\EntityCollectionLocalActionProvider",
