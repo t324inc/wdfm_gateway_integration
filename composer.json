@@ -1,5 +1,5 @@
 {
-  "name": "drupal/wdfm_gateway_integration",
+  "name": "t324inc/wdfm_gateway_integration",
   "type": "custom-drupal-module",
   "description": "Integration with the Gateway server using SOAP",
   "keywords": ["Drupal"],
