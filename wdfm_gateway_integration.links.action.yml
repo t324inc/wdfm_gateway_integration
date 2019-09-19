@@ -1,0 +1,5 @@
+membership_type_action_add:
+  route_name: entity.membership_type.add_form
+  title: 'Add Membership Type'
+  appears_on:
+    - entity.membership_type.collection

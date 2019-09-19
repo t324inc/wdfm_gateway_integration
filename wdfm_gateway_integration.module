@@ -5,10 +5,13 @@
  * Contains wdfm_gateway_integration.module.
  */
 
-use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Url;
+  use Drupal\block\Entity\Block;
+  use Drupal\Core\Access\AccessResult;
+  use Drupal\Core\Routing\RouteMatchInterface;
+  use Drupal\Core\Session\AccountInterface;
+  use Drupal\wdfm_gateway_integration\Entity\MembershipEntity;
 
-/**
+  /**
  * Implements hook_help().
  */
 function wdfm_gateway_integration_help($route_name, RouteMatchInterface $route_match) {
@@ -32,10 +35,55 @@ function wdfm_gateway_integration_entity_type_alter(array &$entity_types) {
 }
 
 /**
- * Entity URI callback.
+ * Implements hook_user_delete().
  */
-function membership_uri($membership) {
-  return new Url('entity.membership.canonical', [
-    'membership' => $membership->id(),
-  ]);
+function wdfm_gateway_integration_user_delete(Drupal\Core\Entity\EntityInterface $entity) {
+  $membership_ids = \Drupal::entityQuery('membership')
+    ->condition('uid', $entity->id())
+    ->execute();
+  if(!empty($membership_ids)) {
+    $memberships = MembershipEntity::loadMultiple($membership_ids);
+    foreach($memberships as $item) {
+      /** @var \Drupal\wdfm_gateway_integration\Entity\MembershipEntity $membership **/
+      $membership = $item;
+      $membership->delete();
+    }
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function wdfm_gateway_integration_membership_delete(Drupal\Core\Entity\EntityInterface $entity) {
+  if(!empty($entity->get('uid')->target_id)) {
+    $uid = $entity->get('uid')->target_id;
+    /** @var \Drupal\user\Entity\User $user */
+    $user = \Drupal\user\Entity\User::load($uid);
+    if(!empty($user)) {
+      $membership_ids = \Drupal::entityQuery('membership')
+        ->condition('uid', $user->id())
+        ->condition('id', $entity->id(), '!=')
+        ->execute();
+      if(empty($membership_ids)) {
+        $user->removeRole('wdfm_member');
+        $user->save();
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_block_access().
+ */
+function wdfm_gateway_integration_block_access(Block $block, $operation, AccountInterface $account) {
+
+  if($block->id() == "attachyourmembershipfordiscounts") {
+    $roles = $account->getRoles();
+    if(in_array('authenticated', $roles) && !in_array('wdfm_member', $roles)) {
+      return AccessResult::allowed();
+    }
+    return AccessResult::forbidden();
+  }
+
+  return AccessResult::neutral();
 }

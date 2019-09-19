@@ -1,5 +1,14 @@
-entity.membership.collection:
+wdfm_gateway_integration.account.memberships:
+  title: Memberships
+  parent: entity.user.canonical
+  route_name: wdfm_gateway_integration.account.memberships
+membership_collection_menu:
   title: 'Memberships'
-  route_name: 'entity.membership.collection'
-  description: 'List of Memberships.'
-  parent: system.admin_content
+  route_name: entity.membership.collection
+  description: 'List of Memberships'
+  parent: commerce.admin_commerce
+membership_type_collection_menu:
+  title: 'Membership Types'
+  route_name: entity.membership_type.collection
+  description: 'List of Membership Types'
+  parent: system.admin_structure

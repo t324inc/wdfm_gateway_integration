@@ -3,74 +3,36 @@
 namespace Drupal\wdfm_gateway_integration\Form;
 
 use Drupal\Core\Entity\ContentEntityForm;
-use Drupal\Core\Entity\EntityForm;
-use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Form\FormStateInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Base Memberships entity configuration form.
- *
- * @ingroup wdfm_gateway_integration
+ * Class MembershipEntityForm
  */
 class MembershipEntityForm extends ContentEntityForm {
-
-  /**
-   * Entity query factory.
-   *
-   * @var \Drupal\Core\Entity\Query\QueryFactory
-   */
-  protected $entityQueryFactory;
-
-  /**
-   * Constructs a Membership object.
-   *
-   * @param \Drupal\Core\Entity\Query\QueryFactory $query_factory
-   *   An entity query factory for the Membership entity type.
-   */
-  public function __construct(QueryFactory $query_factory) {
-    $this->entityQueryFactory = $query_factory;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('entity.query')
-    );
-  }
-
-  /**
-   * Get the title of the membership.
-   *
-   * @return string
-   *   The label of the entity.
-   */
-  public function getTitle() {
-    return $this->t('Edit %membership', [
-      '%membership' => $this->entity->id(),
-    ]);
-  }
 
   /**
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    $membership = $this->getEntity();
-    $status = $membership->save();
+    $entity = &$this->entity;
+    $message_params = [
+      '%entity_label' => $entity->id(),
+      '%content_entity_label' => $entity->getEntityType()->getLabel()->render(),
+      '%bundle_label' => $entity->bundle->entity->label(),
+    ];
 
-    if ($status) {
-      $this->messenger()->addMessage($this->t('Saved the %label membership.', [
-        '%label' => $membership->id(),
-      ]));
-    }
-    else {
-      $this->messenger()->addMessage($this->t('There was an error while saving the %label membership.', [
-        '%label' => $membership->id(),
-      ]));
+    $status = parent::save($form, $form_state);
+
+    switch ($status) {
+      case SAVED_NEW:
+        drupal_set_message($this->t('Created the %bundle_label - %content_entity_label entity:  %entity_label.', $message_params ));
+        break;
+
+      default:
+        drupal_set_message($this->t('Saved the %bundle_label - %content_entity_label entity:  %entity_label.', $message_params));
     }
 
-    $form_state->setRedirect('entity.membership.collection');
+    $content_entity_id = $entity->getEntityType()->id();
+    $form_state->setRedirect("entity.{$content_entity_id}.canonical", [$content_entity_id => $entity->id()]);
   }
 }

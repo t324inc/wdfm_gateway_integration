@@ -6,3 +6,7 @@ administer memberships:
   title: 'Administer memberships'
   description: 'Administer all memberships.'
   restrict access: true
+
+administer membership types:
+  title: 'Administer Membership types'
+  restrict access: true

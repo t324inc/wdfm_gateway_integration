@@ -1,33 +1,12 @@
-entity.membership.edit_form:
-  path: '/admin/content/memberships/{membership}/edit'
+wdfm_gateway_integration.account.memberships:
+  path: '/user/{user}/memberships'
   defaults:
-    _entity_form: 'membership.edit'
-    _title: 'Edit membership'
-    _title_callback: '\Drupal\wdfm_gateway_integration\Controller\MembershipController::getTitle'
-  requirements:
-    _permission: 'administer memberships'
-    membership: '^[a-zA-Z0-9_]+'
-entity.membership.delete_form:
-  path: '/admin/content/memberships/{membership}/delete'
-  defaults:
-    _entity_form: 'membership.delete'
-    _title: 'Delete membership'
-    _title_callback: '\Drupal\wdfm_gateway_integration\Controller\MembershipController::getTitle'
-  requirements:
-    _permission: 'administer memberships'
-    membership: '^[a-zA-Z0-9_]+'
-entity.membership.canonical:
-  path: '/admin/content/memberships/{membership}'
-  defaults:
-    _entity_view: 'membership.full'
-    _title: 'Membership'
-    _title_callback: '\Drupal\wdfm_gateway_integration\Controller\MembershipController::getTitle'
-  requirements:
-    _permission: 'view memberships'
-entity.membership.collection:
-  path: '/admin/content/memberships'
-  defaults:
-    _entity_list: 'membership'
+    _form: '\Drupal\wdfm_gateway_integration\Form\WDFMAttachMembershipForm'
     _title: 'Memberships'
   requirements:
-    _permission: 'view memberships'
+    _permission: 'access content'
+    user: \d+
+  options:
+    parameters:
+      user:
+        type: entity:user

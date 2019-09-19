@@ -1,0 +1,13 @@
+wdfm_gateway_integration.membership_type.*:
+  type: config_entity
+  label: 'Membership Type settings'
+  mapping:
+    id:
+      type: string
+      label: 'Machine-readable name'
+    uuid:
+      type: stype
+      label: 'UUID'
+    label:
+      type: label
+      label: 'Label'

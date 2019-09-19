@@ -6,50 +6,54 @@ use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
-use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
- * Defines the Membership entity.
- *
- * @ingroup membership
+ * Defines the membership entity.
  *
  * @ContentEntityType(
  *   id = "membership",
  *   label = @Translation("Membership"),
- *   handlers = {
- *     "form" = {
- *       "add" = "\Drupal\Core\Entity\ContentEntityForm",
- *       "edit" = "\Drupal\Core\Entity\ContentEntityForm",
- *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
- *     },
- *     "local_action_provider" = {
- *       "collection" = "\Drupal\entity\Menu\EntityCollectionLocalActionProvider",
- *     },
- *     "list_builder" = "\Drupal\wdfm_gateway_integration\Controller\MembershipListBuilder",
- *     "views_data" = "\Drupal\views\EntityViewsData",
- *   },
  *   base_table = "membership",
- *   admin_permission = "administer memberships",
  *   entity_keys = {
  *     "id" = "id",
  *     "uuid" = "uuid",
+ *     "bundle" = "bundle",
  *     "owner" = "uid",
  *   },
- *   uri_callback = "membership_uri",
+ *   fieldable = TRUE,
+ *   admin_permission = "administer membership types",
+ *   handlers = {
+ *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
+ *     "list_builder" = "Drupal\Core\Entity\EntityListBuilder",
+ *     "access" = "Drupal\Core\Entity\EntityAccessControlHandler",
+ *     "views_data" = "Drupal\views\EntityViewsData",
+ *     "form" = {
+ *       "default" = "Drupal\wdfm_gateway_integration\Form\MembershipEntityForm",
+ *       "edit" = "Drupal\wdfm_gateway_integration\Form\MembershipEntityForm",
+ *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
+ *     },
+ *     "route_provider" = {
+ *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
+ *     },
+ *   },
  *   links = {
- *     "canonical" = "/admin/content/memberships/{membership}",
- *     "edit-form" = "/admin/content/memberships/{membership}/edit",
- *   }
- *
+ *     "canonical" = "/membership/{membership}",
+ *     "edit-form" = "/membership/{membership}/edit",
+ *     "delete-form" = "/membership/{membership}/delete",
+ *     "collection" = "/admin/commerce/memberships",
+ *   },
+ *   admin_permission = "administer site configuration",
+ *   bundle_entity_type = "membership_type",
+ *   field_ui_base_route = "entity.membership_type.edit_form",
  * )
  */
-class Membership extends ContentEntityBase implements ContentEntityInterface {
+class MembershipEntity extends ContentEntityBase implements ContentEntityInterface {
 
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 
     $fields['id'] = BaseFieldDefinition::create('string')
-      ->setLabel(new TranslatableMarkup('Visual ID'))
+      ->setLabel(t('Visual ID'))
       ->addConstraint('UniqueField')
       ->setReadOnly(TRUE);
 
@@ -60,6 +64,20 @@ class Membership extends ContentEntityBase implements ContentEntityInterface {
       ->setSetting('handler', 'default')
       ->setDefaultValue(0)
       ->setDisplayConfigurable('view', TRUE);
+
+    $fields['membership_type'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Membership Type'))
+      ->setDescription(t('The type of membership this is.'))
+      ->setSetting('target_type', 'taxonomy_term')
+      ->setSetting('target_bundle', 'membership_types')
+      ->setSetting('handler', 'default')
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'entity_reference_label',
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayConfigurable('form', TRUE);
 
     $fields['first_name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('First Name'))

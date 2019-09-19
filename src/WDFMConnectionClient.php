@@ -75,6 +75,7 @@ class WDFMConnectionClient extends ConnectionClient {
     $message->Body->QueryTicket->Queries->Query->addChild('IncludeIsValid', 'YES');
     $message->Body->QueryTicket->Queries->Query->addChild($membershipKey, $membershipValue);
     $message->Body->QueryTicket->addChild('DataRequest');
+    $message->Body->QueryTicket->DataRequest->addChild('Field', 'PassKindName');
     $message->Body->QueryTicket->DataRequest->addChild('Field', 'isValid');
     $message->Body->QueryTicket->DataRequest->addChild('Field', 'FirstName');
     $message->Body->QueryTicket->DataRequest->addChild('Field', 'LastName');
